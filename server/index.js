@@ -1,6 +1,5 @@
 let actions = {
     'send_message': function( ws, options ) {
-        console.log( "sm", options );
         sendMessage( ws, {
             user: "brian",
             message: "Server says: " + options.message,
@@ -14,9 +13,7 @@ let WebSocketServer = require( 'ws' ).Server,
 wss.on( 'connection', function connection( ws ) {
 
     ws.on( 'message', function incoming( message ) {
-        console.log( "test", message );
         let d = parseMessage( message );
-        console.log( "msg data", d )
         actions[ d.action ]( ws, d );
 
     } );
