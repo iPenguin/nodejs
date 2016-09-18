@@ -1,0 +1,25 @@
+{
+    "validateIndentation": 4,
+    "requireSpacesInsideParentheses": "all",
+    "requireSpacesInForStatement": true,
+    "requireSpacesInConditionalExpression": {
+        "afterTest": true,
+        "beforeConsequent": true,
+        "afterConsequent": true,
+        "beforeAlternate": true
+    },
+    "disallowSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true,
+    },
+    "requireSpacesInFunctionExpression": {
+        "beforeOpeningCurlyBrace": true
+    },
+    "disallowMixedSpacesAndTabs": true,
+    "requireSpaceAfterComma": true,
+    "requireSpaceBetweenArguments": true,
+    "disallowSpaceBeforeSemicolon": true,
+    "requireSpaceAfterBinaryOperators": true,
+    "requireSpaceBeforeBinaryOperators": true,
+    "disallowTrailingWhitespace": true,
+    "requireTrailingComma": true,
+}
