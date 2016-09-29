@@ -1,14 +1,8 @@
 {
-    esversion: 6,
-    curly: true,
-    futurehostile: true,
-    latedef: "nofunc",
-    maxparams: 3,
-    noarg: true,
-    nonbsp: true,
-    nonew: true,
-    notypeof: true,
-    strict: "implied",
-    undef: true,
-    unused: true,
+    "node":     true,
+    "esnext":   true,
+    "jquery":   true,
+    "browser":  true,
+    "laxbreak": true,
+    "unused":   true
 }

@@ -1,25 +1,62 @@
 {
     "validateIndentation": 4,
-    "requireSpacesInsideParentheses": "all",
+    "requireLineFeedAtFileEnd": true,
+    "requireCapitalizedConstructors": true,
+    "requireDotNotation": true,
+    "requireSpaceBeforeObjectValues": true,
+    "requireSpaceBeforeBlockStatements": true,
+    "requireParenthesesAroundIIFE": true,
+    "requireSpacesInConditionalExpression": true,
+    "requireSpaceBetweenArguments": true,
+    "disallowMultipleVarDecl": true,
+    "requireBlocksOnNewline": true,
+    "requireSpacesInsideArrayBrackets": "all",
+    "requireCommaBeforeLineBreak": true,
+    "requireSpaceAfterPrefixUnaryOperators": [ "!" ],
     "requireSpacesInForStatement": true,
-    "requireSpacesInConditionalExpression": {
-        "afterTest": true,
-        "beforeConsequent": true,
-        "afterConsequent": true,
-        "beforeAlternate": true
+    "requireSpaceBeforeBinaryOperators": true,
+    "requireSpaceAfterBinaryOperators": true,
+    "requireSpacesInsideBrackets": true,
+    "requireCurlyBraces": [
+        "if",
+        "else",
+        "for",
+        "while",
+        "do",
+        "try",
+        "catch"
+    ],
+    "requireSpacesInsideParentheses": {
+        "all": true
     },
-    "disallowSpacesInFunctionExpression": {
+    "requireSpacesInAnonymousFunctionExpression": {
         "beforeOpeningRoundBrace": true,
-    },
-    "requireSpacesInFunctionExpression": {
         "beforeOpeningCurlyBrace": true
     },
+    "requireKeywordsOnNewLine": [
+        "else"
+    ],
+    "disallowSpaceAfterKeywords": [
+        "if",
+        "for",
+        "while",
+        "do",
+        "switch",
+        "try",
+        "catch"
+    ],
+    "disallowEmptyBlocks": false,
+    "disallowSpaceBeforePostfixUnaryOperators": true,
+    "disallowSpaceBeforeBinaryOperators": [
+        ","
+    ],
+    "disallowKeywords": [
+        "with",
+        "continue"
+    ],
     "disallowMixedSpacesAndTabs": true,
-    "requireSpaceAfterComma": true,
-    "requireSpaceBetweenArguments": true,
-    "disallowSpaceBeforeSemicolon": true,
-    "requireSpaceAfterBinaryOperators": true,
-    "requireSpaceBeforeBinaryOperators": true,
     "disallowTrailingWhitespace": true,
-    "requireTrailingComma": true,
+    "disallowNewlineBeforeBlockStatements": true,
+    "disallowMultipleLineStrings": true,
+    "maxErrors": null
 }
