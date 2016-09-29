@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
 
     // Get references to elements on the page.
     var form = document.getElementById( 'message-form' );
@@ -11,18 +11,18 @@ window.onload = function() {
     let socket = new WebSocket( 'ws://localhost:8080' );
 
     // Handle any errors that occur.
-    socket.onerror = function( error ) {
+    socket.onerror = function ( error ) {
         console.log( 'WebSocket Error: ' + error );
     };
 
     // Show a connected message when the WebSocket is opened.
-    socket.onopen = function( event ) {
+    socket.onopen = function ( event ) {
         socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.url;
         socketStatus.className = 'open';
     };
 
     // Handle messages sent by the server.
-    socket.onmessage = function( event ) {
+    socket.onmessage = function ( event ) {
         console.log( event );
         let response = parseResponse( event.data );
 
@@ -31,13 +31,13 @@ window.onload = function() {
     };
 
     // Show a disconnected message when the WebSocket is closed.
-    socket.onclose = function( event ) {
+    socket.onclose = function ( event ) {
         socketStatus.innerHTML = 'Disconnected from WebSocket.';
         socketStatus.className = 'closed';
     };
 
     // Send a message when the form is submitted.
-    form.onsubmit = function( e ) {
+    form.onsubmit = function ( e ) {
         e.preventDefault();
 
         let message = messageField.value;
@@ -58,7 +58,7 @@ window.onload = function() {
     };
 
     // Close the WebSocket connection when the close button is clicked.
-    closeBtn.onclick = function( e ) {
+    closeBtn.onclick = function ( e ) {
         e.preventDefault();
 
         // Close the WebSocket.
