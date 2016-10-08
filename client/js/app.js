@@ -44,7 +44,9 @@ window.onload = function () {
 
         generateRequest( socket, {
             action: 'send_message',
-            message: message,
+            data: {
+                message: message,
+            },
         } );
 
         // Add the message to the messages list.

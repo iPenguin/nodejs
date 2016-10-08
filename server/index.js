@@ -1,30 +1,37 @@
-let actions = {
-    'send_message': function( ws, options ) {
-        sendMessage( ws, {
-            user: "brian",
-            message: "Server says: " + options.message,
-        } );
-    },
-};
+/**
+ * This file contains the setup glue code.
+ */
+let express = require( 'express' );
+let app = express();
+let expressWs = require( 'express-ws' )( app );
+let ejs = require( 'ejs' );
 
-let WebSocketServer = require( 'ws' ).Server,
-    wss = new WebSocketServer( { port: 8080, } );
+app.use( express.static( 'client' ) );
 
-wss.on( 'connection', function connection( ws ) {
-
-    ws.on( 'message', function incoming( message ) {
-        let d = parseMessage( message );
-        actions[ d.action ]( ws, d );
-
-    } );
-
-    ws.send( 'Server Says... Connected!' );
+app.use( function ( req, res, next ) {
+    return next();
 } );
 
-function parseMessage( stringData ) {
-    return JSON.parse( stringData );
-}
+app.get( '/hello', function ( req, res, next ) {
+    ejs.renderFile( __dirname + '/templates/test.html', {}, function ( err, result ) {
+        if( ! err ) {
+            res.end( result );
+        }
+        else {
+            res.end( err.toString() );
+            console.log( err );
+        }
+    } );
+} );
 
-function sendMessage( ws, jsonObject ) {
-    ws.send( JSON.stringify( jsonObject ) );
-}
+app.ws( '/', function ( ws, req ) {
+    ws.on( 'message', function ( msg ) {
+        let main = require( './server.js' );
+        let server = new main.Server( app );
+
+        let jsonObj = JSON.parse( msg );
+        server.processMessage( jsonObj );
+    } );
+} );
+
+app.listen( 8080 );
