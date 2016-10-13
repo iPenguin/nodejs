@@ -12,16 +12,47 @@ app.use( function ( req, res, next ) {
     return next();
 } );
 
-app.get( '/hello', function ( req, res, next ) {
-    ejs.renderFile( __dirname + '/templates/test.html', {}, function ( err, result ) {
-        if( ! err ) {
-            res.end( result );
+/**
+ * This route will check for a cached copy of the given filename.
+ * If a cached copy exists it will render the cached copy, otherwise
+ * it will check if a template exists with that name and attempt to
+ * render the template. If no template exists it will give up. :,(
+ */
+app.get( '/:filename', function ( req, res, next ) {
+
+    let fs = require( 'fs' );
+    let cachedFileName = __dirname + '/cached/' + req.params.filename;
+    let templateFileName = __dirname + '/templates/' + req.params.filename;
+
+    let cacheExists = fs.existsSync( cachedFileName );
+
+    // Is a file?
+    if( cacheExists ) {
+        let fileStream = fs.createReadStream( cachedFileName );
+        fileStream.on( 'data', function ( data ) {
+            res.end( data );
+
+        } );
+    }
+    else {
+        let tempExists = fs.existsSync( templateFileName );
+
+        // Is a file?
+        if( ! tempExists ) {
+            res.end( "<h1>File Not Found</h1>" );
+            return;
         }
-        else {
-            res.end( err.toString() );
-            console.log( err );
-        }
-    } );
+
+        ejs.renderFile( templateFileName, {}, function ( err, result ) {
+            if( ! err ) {
+                res.end( result );
+            }
+            else {
+                res.end( err.toString() );
+                console.log( err );
+            }
+        } );
+    }
 } );
 
 app.ws( '/', function ( ws, req ) {
