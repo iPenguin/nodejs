@@ -39,7 +39,16 @@ app.get( '/:filename', function ( req, res, next ) {
 
         // Is a file?
         if( ! tempExists ) {
-            res.end( "<h1>File Not Found</h1>" );
+            res.writeHead( 404, { 'Content-Type': 'text/html' } );
+            ejs.renderFile( __dirname + "/templates/404.html", {}, function ( err, result ) {
+                if( ! err ) {
+                    res.end( result );
+                }
+                else {
+                    res.end( err.toString() );
+                    console.log( err );
+                }
+            } );
             return;
         }
 
