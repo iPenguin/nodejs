@@ -12,7 +12,15 @@ app.use( function ( req, res, next ) {
     return next();
 } );
 
+app.ws( '/', function ( ws, req ) {
+    ws.on( 'message', function ( msg ) {
+        let mh = require( './messagehandler' );
+        let messageHandler = new mh.MessageHandler( ws, msg );
+    } );
+} );
+
 /**
+ * The fallback or default route.
  * This route will check for a cached copy of the given filename.
  * If a cached copy exists it will render the cached copy, otherwise
  * it will check if a template exists with that name and attempt to
@@ -26,7 +34,6 @@ app.get( '/:filename', function ( req, res, next ) {
 
     let cacheExists = fs.existsSync( cachedFileName );
 
-    // Is a file?
     if( cacheExists ) {
         let fileStream = fs.createReadStream( cachedFileName );
         fileStream.on( 'data', function ( data ) {
@@ -37,7 +44,6 @@ app.get( '/:filename', function ( req, res, next ) {
     else {
         let tempExists = fs.existsSync( templateFileName );
 
-        // Is a file?
         if( ! tempExists ) {
             res.writeHead( 404, { 'Content-Type': 'text/html' } );
             ejs.renderFile( __dirname + "/templates/404.html", {}, function ( err, result ) {
@@ -62,16 +68,6 @@ app.get( '/:filename', function ( req, res, next ) {
             }
         } );
     }
-} );
-
-app.ws( '/', function ( ws, req ) {
-    ws.on( 'message', function ( msg ) {
-        let main = require( './server.js' );
-        let server = new main.Server( app );
-
-        let jsonObj = JSON.parse( msg );
-        server.processMessage( jsonObj );
-    } );
 } );
 
 app.listen( 8080 );

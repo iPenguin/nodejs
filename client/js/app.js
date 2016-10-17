@@ -1,11 +1,11 @@
 window.onload = function () {
 
     // Get references to elements on the page.
-    var form = document.getElementById( 'message-form' );
-    var messageField = document.getElementById( 'message' );
-    var messagesList = document.getElementById( 'messages' );
-    var socketStatus = document.getElementById( 'status' );
-    var closeBtn = document.getElementById( 'close' );
+    let form = document.getElementById( 'message-form' );
+    let messageField = document.getElementById( 'message' );
+    let messagesList = document.getElementById( 'messages' );
+    let socketStatus = document.getElementById( 'status' );
+    let closeBtn = document.getElementById( 'close' );
 
     // Create a new WebSocket.
     let socket = new WebSocket( 'ws://localhost:8080' );
@@ -23,9 +23,8 @@ window.onload = function () {
 
     // Handle messages sent by the server.
     socket.onmessage = function ( event ) {
-        console.log( event );
-        let response = parseResponse( event.data );
 
+        let response = parseResponse( event.data );
         messagesList.innerHTML += '<li class="received"><span>user: ' + response.user + '</span>' +
                                    response.message + '</li>';
     };
@@ -44,7 +43,8 @@ window.onload = function () {
 
         generateRequest( socket, {
             action: 'send_message',
-            data: {
+            module: 'echochat',
+            data:   {
                 message: message,
             },
         } );
@@ -70,13 +70,13 @@ window.onload = function () {
     };
 
     function generateRequest( socket, options ) {
-        console.log( "Request:", options );
+
         socket.send( JSON.stringify( options ) );
     }
 
     function parseResponse( eventData ) {
         let responseObj = JSON.parse( eventData );
-        console.log( "Response:", responseObj );
+
         return responseObj;
     }
 
