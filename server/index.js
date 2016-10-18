@@ -13,9 +13,10 @@ app.use( function ( req, res, next ) {
 } );
 
 app.ws( '/', function ( ws, req ) {
-    ws.on( 'message', function ( msg ) {
+    ws.on( 'message', function ( messageString ) {
         let mh = require( './messagehandler' );
-        let messageHandler = new mh.MessageHandler( ws, msg );
+        let messageHandler = new mh.MessageHandler( ws );
+        messageHandler.processMessage( messageString );
     } );
 } );
 

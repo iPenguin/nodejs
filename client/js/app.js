@@ -50,8 +50,7 @@ window.onload = function () {
         } );
 
         // Add the message to the messages list.
-        messagesList.innerHTML += '<li class="sent"><span>Me:</span>' + message +
-                                  '</li>';
+        messagesList.innerHTML += '<li class="sent"><span>Me:</span>' + message + '</li>';
 
         // Clear out the message field.
         messageField.value = '';
