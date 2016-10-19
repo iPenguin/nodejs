@@ -1,14 +1,14 @@
 <html>
   <head>
     <title>404 - File Not Found</title>
-    <meta content="">
-    <style></style>
+    <%- include( 'common/includes.html' ); %>
   </head>
   <body>
       <%- include( 'common/header.html' ); %>
-      
-      <h2>404 File Not Found</h2>
-
+      <div id="page-body">
+          <h2>404</h2>
+          <h4>This is not the file you're looking for</h4>
+      </div>
       <%- include( 'common/footer.html' ); %>
   </body>
 </html>
