@@ -1,0 +1,72 @@
+body {
+    font-family: 'Fira Sans', sans-serif;
+}
+
+header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 50px;
+    width: calc( 100% - 40px );
+    background-color: #4471AA;
+    text-align: right;
+    color: white;
+}
+header h2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.header {
+    bottom: -90px;
+    height: 90px;
+    left: 0;
+    position: absolute;
+    transform: rotate(-90deg);
+    transform-origin: left top 0;
+    width: calc(100vh - 10px);
+    padding-left: 10px;
+    background-color: #4471AA;
+    color: white;
+}
+.header a {
+    color: lightgray;
+    text-decoration: none;
+}
+
+.main-header {
+    float: left;
+    font-size: 38px;
+    margin-bottom: 15px;
+    margin-top: -35px;
+    width: 65%;
+}
+
+.sub-header {
+    float: right;
+    width: 30%;
+}
+
+#page-body {
+    margin-top: 75px;
+    margin-bottom: 50px;
+    width: calc( 100% - 40px );
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    width: calc( 100% - 40px );
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #4471AA;
+    text-align: center;
+    color: white;
+}
