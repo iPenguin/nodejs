@@ -24,14 +24,15 @@ class MessageHandler {
      * }
      */
     processMessage( messageText ) {
-
+        console.log( "process message", messageText );
         let actionObj = JSON.parse( messageText );
+        console.log( "process message obj", actionObj );
 
-        if( typeof( actionObj.module ) == undefined ) {
-            throw new Error( "No module defined for action" );
+        if( typeof( actionObj.page_id ) == undefined ) {
+            throw new Error( "No page defined for action" );
         }
 
-        let au = require( './' + actionObj.module );
+        let au = require( './' + actionObj.page_id );
         au.doAction( this._ws, actionObj );
     }
 }

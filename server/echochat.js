@@ -5,8 +5,12 @@
 function echoChat( ws, messageObj ) {
 
     ws.send( JSON.stringify( {
-        message: messageObj.data.message,
-        user:    'brian',
+        isSuccess: true,
+        call_id:   messageObj.call_id,
+        data:      {
+            message:   messageObj.message,
+            user:      'brian',
+        },
     } ) );
 
 }

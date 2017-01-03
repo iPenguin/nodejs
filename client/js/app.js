@@ -8,46 +8,36 @@ window.onload = function () {
     let closeBtn = document.getElementById( 'close' );
 
     // Create a new WebSocket.
-    let socket = new WebSocket( 'ws://localhost:8080' );
-
-    // Handle any errors that occur.
-    socket.onerror = function ( error ) {
-        console.log( 'WebSocket Error: ' + error );
-    };
-
-    // Show a connected message when the WebSocket is opened.
-    socket.onopen = function ( event ) {
-        socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.url;
-        socketStatus.className = 'open';
-    };
-
-    // Handle messages sent by the server.
-    socket.onmessage = function ( event ) {
-
-        let response = parseResponse( event.data );
-        messagesList.innerHTML += '<li class="received"><span>user: ' + response.user + '</span>' +
-                                   response.message + '</li>';
-    };
-
-    // Show a disconnected message when the WebSocket is closed.
-    socket.onclose = function ( event ) {
-        socketStatus.innerHTML = 'Disconnected from WebSocket.';
-        socketStatus.className = 'closed';
-    };
+    let socket = new Socket( 'echochat', {
+        open: ( event ) => {
+            socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.url;
+            socketStatus.className = 'open';
+        },
+        close: ( event ) => {
+            // Show a disconnected message when the WebSocket is closed.
+            socketStatus.innerHTML = 'Disconnected from WebSocket.';
+            socketStatus.className = 'closed';
+        },
+    } );
 
     // Send a message when the form is submitted.
-    form.onsubmit = function ( e ) {
+    form.onsubmit = ( e ) => {
         e.preventDefault();
 
         let message = messageField.value;
+        let options = {
+            success: ( jsonData ) => {
+                console.log( "success", jsonData );
+                messagesList.innerHTML += '<li class="received"><span>user: ' + jsonData.user + '</span>' +
+                jsonData.message + '</li>';
+            }
+        };
 
-        generateRequest( socket, {
-            action: 'send_message',
-            module: 'echochat',
-            data:   {
-                message: message,
-            },
-        } );
+        socket.send( {
+            action:  'send_message',
+            module:  'echochat',
+            message: message,
+        }, options );
 
         // Add the message to the messages list.
         messagesList.innerHTML += '<li class="sent"><span>Me:</span>' + message + '</li>';
@@ -59,7 +49,7 @@ window.onload = function () {
     };
 
     // Close the WebSocket connection when the close button is clicked.
-    closeBtn.onclick = function ( e ) {
+    closeBtn.onclick = ( e ) => {
         e.preventDefault();
 
         // Close the WebSocket.
@@ -67,16 +57,4 @@ window.onload = function () {
 
         return false;
     };
-
-    function generateRequest( socket, options ) {
-
-        socket.send( JSON.stringify( options ) );
-    }
-
-    function parseResponse( eventData ) {
-        let responseObj = JSON.parse( eventData );
-
-        return responseObj;
-    }
-
 };

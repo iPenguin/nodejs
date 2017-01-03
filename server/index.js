@@ -5,6 +5,7 @@ let express = require( 'express' );
 let app = express();
 let expressWs = require( 'express-ws' )( app );
 let ejs = require( 'ejs' );
+let db = require( 'nano' )( 'http://localhost:5984' );
 
 app.use( express.static( 'client' ) );
 
@@ -28,6 +29,20 @@ app.ws( '/', function ( ws, req ) {
  * render the template. If no template exists it will give up. :,(
  */
 app.get( '/:filename', function ( req, res, next ) {
+    let settings = db.use( 'settings' );
+    let cache_file = true;
+
+    settings.view( 'by_site_view', 'by_site', {'site': 'localhost'}, function ( err, body ) {
+        if( err ) {
+            console.log( "error with view", err );
+            return;
+        }
+        if( body.rows.length > 0 ) {
+            let document = body.rows[ 0 ].value;
+            cache_file = document.create_cache;
+            console.log( "cache file", cache_file );
+        }
+    } );
 
     let fs = require( 'fs' );
     let cachedFileName = __dirname + '/cached/' + req.params.filename;
@@ -53,7 +68,6 @@ app.get( '/:filename', function ( req, res, next ) {
                 }
                 else {
                     res.end( err.toString() );
-                    console.log( err );
                 }
             } );
             return;
@@ -61,6 +75,14 @@ app.get( '/:filename', function ( req, res, next ) {
 
         ejs.renderFile( templateFileName, {}, function ( err, result ) {
             if( ! err ) {
+                console.log( "render:", cache_file );
+                if( cache_file ) {
+                    fs.writeFile( __dirname + "/cached/" + req.params.filename, result, function ( err ) {
+                        if( err ) {
+                            return console.log( err );
+                        }
+                    } );
+                }
                 res.end( result );
             }
             else {
