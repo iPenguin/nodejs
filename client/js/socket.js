@@ -1,6 +1,6 @@
 {
     /**
-     * makeId function leveraged from with modifications:
+     * makeId function leveraged (with modifications) from:
      * http://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
      */
     function makeId() {
@@ -16,16 +16,16 @@
     let cbSuccess = {};
     let cbError = {};
 
-/**
- * Socket - WebSocket wrapper class.
- *
- * @page - name of code module.
- * @options -
- *     url - url used to connect to the websocket, including ws://
- *     open - function onopen
- *     close - function onclose
- *     error - function onerror
- */
+    /**
+     * Socket - WebSocket wrapper class.
+     *
+     * @page - name of code module.
+     * @options -
+     *     url - url used to connect to the websocket, including ws://
+     *     open - function onopen
+     *     close - function onclose
+     *     error - function onerror
+     */
     class Socket {
         constructor( page, options ) {
 
@@ -59,7 +59,9 @@
         }
 
         /**
-         * Process response messages from the server.
+         * Process response messages from the server using success or error
+         * functions provided when Socket.send() was called, if no callbacks
+         * were provided do nothing.
          */
         _processMessages( event ) {
             let responseData = JSON.parse( event.data );
@@ -104,6 +106,7 @@
             cbSuccess[ callId ] = ( typeof( options.success ) == 'function' ? options.success : this._onSuccess );
             cbError[ callId ] = ( typeof( options.error ) == 'function' ? options.error : this._onError );
         }
+
 
         close() {
             this._ws.close();
