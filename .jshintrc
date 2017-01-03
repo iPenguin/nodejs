@@ -1,8 +1,0 @@
-{
-    "node":     true,
-    "esnext":   true,
-    "jquery":   true,
-    "browser":  true,
-    "laxbreak": true,
-    "unused":   true
-}
