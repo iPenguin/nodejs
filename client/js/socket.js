@@ -93,14 +93,17 @@
         /**
          * Send data to the server, and define callbacks when the server responds.
          * options: {
-         *     success: ( jsondData ) => {},
-         *     error: ( jsondData ) => {},
+         *     success: ( jsondData ) => { ... },
+         *     error: ( jsondData ) => { ... },
          * }
          */
-        send( jsonData, options ) {
+        send( userData = {}, options = {} ) {
             let callId = makeId();
-            jsonData.call_id = callId;
-            jsonData.page_id = this._page;
+            let jsonData = {
+                call_id: callId,
+                page_id: this._page,
+                data:    userData,
+            };
             this._ws.send( JSON.stringify( jsonData ) );
 
             cbSuccess[ callId ] = ( typeof( options.success ) == 'function' ? options.success : this._onSuccess );

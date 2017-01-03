@@ -13,13 +13,8 @@ app.use( function ( req, res, next ) {
     return next();
 } );
 
-app.ws( '/', function ( ws, req ) {
-    ws.on( 'message', function ( messageString ) {
-        let mh = require( './messagehandler' );
-        let messageHandler = new mh.MessageHandler( ws );
-        messageHandler.processMessage( messageString );
-    } );
-} );
+let rs = require( './routeserver' );
+let routeServer = new rs.RouteServer( app );
 
 /**
  * The fallback or default route.

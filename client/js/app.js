@@ -25,19 +25,16 @@ window.onload = function () {
         e.preventDefault();
 
         let message = messageField.value;
-        let options = {
-            success: ( jsonData ) => {
-                console.log( "success", jsonData );
-                messagesList.innerHTML += '<li class="received"><span>user: ' + jsonData.user + '</span>' +
-                jsonData.message + '</li>';
-            }
-        };
 
         socket.send( {
             action:  'send_message',
-            module:  'echochat',
             message: message,
-        }, options );
+        }, /* options */ {
+            success: ( jsonData ) => {
+                messagesList.innerHTML += '<li class="received"><span>user: ' + jsonData.user + '</span>' +
+                    jsonData.message + '</li>';
+            }
+        } );
 
         // Add the message to the messages list.
         messagesList.innerHTML += '<li class="sent"><span>Me:</span>' + message + '</li>';

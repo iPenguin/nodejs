@@ -3,16 +3,16 @@
  */
 
 function echoChat( ws, messageObj ) {
-
-    ws.send( JSON.stringify( {
-        isSuccess: true,
-        call_id:   messageObj.call_id,
-        data:      {
-            message:   messageObj.message,
-            user:      'brian',
-        },
-    } ) );
-
+    if( messageObj.data.action == 'send_message' ) {
+        ws.send( JSON.stringify( {
+            isSuccess: true,
+            call_id:   messageObj.call_id,
+            data:      {
+                message:   messageObj.data.message,
+                user:      'brian',
+            },
+        } ) );
+    }
 }
 
 function doAction( ws, messageObj ) {
