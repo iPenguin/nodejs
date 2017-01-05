@@ -2,7 +2,18 @@
  * Create and manage routes on the server, by redirecting messages
  * to the correct module for a response.
  *
- * Modules should export doAction( webSocket, messageObject )
+ * modules should be structured as follows:
+ *
+ * Module.js contains:
+ *    class Module {
+ *        constructor() {
+ *            ...
+ *        }
+ *
+ *        doAction( messageObj ) {
+ *
+ *        }
+ *    }
  */
 
 class RouteServer {
@@ -43,7 +54,9 @@ class RouteServer {
         }
 
         let customModule = require( './' + messageObj.page_id );
-        customModule.doAction( ws, messageObj );
+
+        let mod = new customModule[ messageObj.page_id ]( ws );
+        mod.doAction( messageObj );
     }
 }
 
