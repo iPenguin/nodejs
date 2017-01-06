@@ -54,8 +54,11 @@ class RouteServer {
         }
 
         let customModule = require( './' + messageObj.page_id );
-
         let mod = new customModule[ messageObj.page_id ]( ws );
+
+        if( typeof( mod.doAction ) != 'function' ) {
+            throw new Error( "No doAction function for " + messageObj.page_id );
+        }
         mod.doAction( messageObj );
     }
 }
