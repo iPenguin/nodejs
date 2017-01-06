@@ -7,6 +7,11 @@ class EchoChat {
         this.ws = ws;
     }
 
+    /**
+     * Default message routing function for this object.
+     * The routing server assumes all modules will have a
+     * doAction() function.
+     */
     doAction( messageObj ) {
         console.log( "do action", messageObj );
         switch( messageObj.data.action ) {
@@ -19,6 +24,9 @@ class EchoChat {
         }
     }
 
+    /**
+     * Simple function to echo the user message back to them.
+     */
     echoMessage( messageObj ) {
         this.ws.send( JSON.stringify( {
             isSuccess: true,
@@ -30,6 +38,9 @@ class EchoChat {
         } ) );
     }
 
+    /**
+     * Send the user a generic response message
+     */
     sendResponse( messageObj ) {
         this.ws.send( JSON.stringify( {
             isSuccess: true,
