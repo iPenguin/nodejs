@@ -10,6 +10,7 @@
   "author": "Brian Milco",
   "license": "MIT",
   "dependencies": {
+    "commander": "^2.9.0",
     "ejs": "^2.5.2",
     "express": "^4.14.0",
     "express-ws": "^2.0.0",
