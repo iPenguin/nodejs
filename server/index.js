@@ -4,7 +4,7 @@
 let express = require( 'express' );
 let app = express();
 let expressWs = require( 'express-ws' )( app );
-let ejs = require( 'ejs' );
+const t = require( './Template' );
 
 app.use( express.static( 'client' ) );
 
@@ -19,33 +19,8 @@ let routeServer = new rs.RouteServer( app );
  * The fallback route renders template files from the filesystem.
  */
 app.get( '/:filename', function ( req, res, next ) {
-    let fs = require( 'fs' );
-    let templateFileName = __dirname + '/templates/' + req.params.filename;
-
-    let tempExists = fs.existsSync( templateFileName );
-
-    if( ! tempExists ) {
-        res.writeHead( 404, { 'Content-Type': 'text/html' } );
-        ejs.renderFile( __dirname + "/templates/404.html", {}, function ( err, result ) {
-            if( ! err ) {
-                res.end( result );
-            }
-            else {
-                res.end( err.toString() );
-            }
-        } );
-        return;
-    }
-
-    ejs.renderFile( templateFileName, {}, function ( err, result ) {
-        if( ! err ) {
-            res.end( result );
-        }
-        else {
-            res.end( err.toString() );
-            console.log( err );
-        }
-    } );
+    let template = new t.Template( req );
+    template.render( res );
 } );
 
 app.listen( 8080 );
